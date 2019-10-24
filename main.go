@@ -30,8 +30,8 @@ func main() {
 
 //Book struct
 type Book struct {
-	Title   string
-	NoPages int
+	Title string `json:"title"`
+	No    int    `json:"no"`
 }
 
 //CreateDocument func
@@ -46,8 +46,8 @@ func CreateDocument(arangoCon driver.Client, arangoDB driver.Database) {
 	}
 
 	book := Book{
-		Title:   "ArangoDB Cookbook",
-		NoPages: 260,
+		Title: "MongoDB",
+		No:    2,
 	}
 
 	ctx := context.Background()
@@ -75,7 +75,7 @@ func ViewSingleDocument(arangoCon driver.Client, arangoDB driver.Database) {
 	}
 
 	ctx := context.Background()
-	meta, err := collection.ReadDocument(ctx, "2175", &book)
+	meta, err := collection.ReadDocument(ctx, "4242", &book)
 
 	if err != nil {
 		// handle error
@@ -90,9 +90,9 @@ func ViewSingleDocument(arangoCon driver.Client, arangoDB driver.Database) {
 //ViewQueryDocument func
 func ViewQueryDocument(arangoCon driver.Client, arangoDB driver.Database) {
 	ctx := context.Background()
-	query := "FOR d IN books FILTER d.NoPages == @nopages RETURN d"
+	query := "FOR d IN books FILTER d.no == @no RETURN d"
 	bindVars := map[string]interface{}{
-		"nopages": 257,
+		"no": 2,
 	}
 
 	cursor, err := arangoDB.Query(ctx, query, bindVars)
